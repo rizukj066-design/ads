@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+secret.key
+*.session
+*.session-journal
+adsbot.db
+adsbot.db-wal
+adsbot.db-shm
+__pycache__/
+*.pyc
+.venv/
+venv/

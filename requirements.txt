@@ -1,0 +1,5 @@
+python-telegram-bot~=20.7
+pyrogram==2.0.106
+tgcrypto==1.2.5
+python-dotenv==1.0.1
+cryptography==42.0.8
