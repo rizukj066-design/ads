@@ -6,10 +6,10 @@ import asyncio
 from datetime import datetime
 from pathlib import Path
 
-# --- RENDER KE LIYE NAYA IMPORT ---
+# --- RENDER KE LIYE UPDATED IMPORT (GET Request handle karne ke liye) ---
 import threading
-from http.server import BaseHTTPRequestHandler, HTTPServer
-# ---------------------------------
+from http.server import SimpleHTTPRequestHandler, HTTPServer
+# ------------------------------------------------------------------------
 
 from dotenv import load_dotenv
 from cryptography.fernet import Fernet
@@ -78,7 +78,7 @@ DEVELOPER_TEXT = "Developed by: @Yo_cum"
 PREMIUM_USERNAME = "@yo_cum"
 ABOUT_POWERED_USERNAME = "@gameyopq"
 
-# 🔴 RENDER KE LIYE FIXED DB PATH (Yahan /data disk mount hoti hai)
+# 🔴 RENDER KE LIYE FIXED DB PATH
 DB_PATH = os.path.join(os.getenv("RENDER_DISK_PATH", "."), "adsbot.db")
 
 # ==================== STATE ====================
@@ -120,7 +120,7 @@ class ClientManager:
             client = Client(
                 name=name, api_id=API_ID, api_hash=API_HASH,
                 session_string=session_str, 
-                in_memory=False,  # 🔴 FIXED: Save peer cache to disk
+                in_memory=False,  
                 no_updates=False
             )
             await client.start()
@@ -1437,14 +1437,14 @@ async def post_shutdown(application):
 
 # ==================== MAIN ====================
 def main():
-    # --- RENDER KE LIYE DUMMY WEB SERVER (PORT 8080) ---
+    # --- RENDER KE LIYE DUMMY WEB SERVER (GET request fix) ---
     def run_dummy_server():
         port = int(os.environ.get("PORT", 8080))
-        server = HTTPServer(('0.0.0.0', port), BaseHTTPRequestHandler)
+        server = HTTPServer(('0.0.0.0', port), SimpleHTTPRequestHandler)
         server.serve_forever()
     
     threading.Thread(target=run_dummy_server, daemon=True).start()
-    # ---------------------------------------------------
+    # ---------------------------------------------------------
 
     req = HTTPXRequest(connect_timeout=20.0, read_timeout=20.0, write_timeout=20.0, pool_timeout=30.0)
     req2 = HTTPXRequest(connect_timeout=20.0, read_timeout=20.0, write_timeout=20.0, pool_timeout=30.0)
